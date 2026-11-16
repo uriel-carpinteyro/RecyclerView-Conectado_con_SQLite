@@ -1,6 +1,7 @@
 package com.example.recyclerview;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
@@ -17,7 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 public class CrudActivity extends AppCompatActivity {
 
     TextInputEditText etClave, etNombre, etDescripcion, etPrecio, etExistencias, etCategoria;
-    Button btnNuevo, btnGuardar, btnActualizar, btnEliminar;
+    Button btnNuevo, btnGuardar, btnActualizar, btnEliminar, btnConsultar;
     BaseDatos baseDatos;
 
     @Override
@@ -38,6 +39,7 @@ public class CrudActivity extends AppCompatActivity {
         btnGuardar = findViewById(R.id.btnGuardar);
         btnActualizar = findViewById(R.id.btnActualizar);
         btnEliminar = findViewById(R.id.btnEliminar);
+        btnConsultar = findViewById(R.id.btnConsultar);
 
         btnNuevo.setOnClickListener(v -> limpiarFormulario());
 
@@ -52,6 +54,7 @@ public class CrudActivity extends AppCompatActivity {
                 mensaje("Modificar: datos del producto validados");
             }
         });
+
         btnEliminar.setOnClickListener(v -> {
             if (texto(etClave).isEmpty()) {
                 etClave.setError("Escribe la clave del producto");
@@ -59,6 +62,10 @@ public class CrudActivity extends AppCompatActivity {
                 mensaje("Eliminar: producto " + texto(etClave));
             }
         });
+
+        // Abre la pantalla que lee los productos de SQLite (R de CRUD)
+        btnConsultar.setOnClickListener(v ->
+                startActivity(new Intent(CrudActivity.this, ConsultaActivity.class)));
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

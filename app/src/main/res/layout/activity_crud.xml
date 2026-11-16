@@ -155,5 +155,11 @@
                 android:text="Eliminar" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btnConsultar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Consultar productos" />
+
     </LinearLayout>
 </ScrollView>
