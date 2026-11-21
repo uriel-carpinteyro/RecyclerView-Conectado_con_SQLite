@@ -80,6 +80,34 @@ public class BaseDatos extends SQLiteOpenHelper {
                 c.getString(5));    // categoria
     }
 
+    // ---------------------- ACTUALIZAR (U de CRUD) ----------------------
+
+    /**
+     * UPDATE productos SET ... WHERE clave = ?
+     * La clave es la llave primaria, por eso NO se modifica: solo se usa para
+     * identificar cuál registro se va a cambiar.
+     * @return cuántos registros se modificaron (1 si todo salió bien, 0 si no existe la clave)
+     */
+    public int actualizar(Producto producto) {
+        SQLiteDatabase db = getWritableDatabase();            // abre la BD en modo escritura
+
+        ContentValues valores = new ContentValues();          // nuevos valores de los campos
+        valores.put("nombre", producto.nombre);
+        valores.put("descripcion", producto.descripcion);
+        valores.put("precio", producto.precio);
+        valores.put("existencias", producto.existencias);
+        valores.put("categoria", producto.categoria);
+
+        int filas = db.update(
+                "productos",                                  // tabla que se modifica
+                valores,                                      // nuevos valores
+                "clave = ?",                                  // condición para identificar el registro
+                new String[]{producto.clave});                // el ? se reemplaza de forma segura
+
+        db.close();                                           // cierra la conexión
+        return filas;
+    }
+
     // ---------------------- DATOS DE EJEMPLO ----------------------
 
     /** Cuenta cuántos productos hay guardados. */

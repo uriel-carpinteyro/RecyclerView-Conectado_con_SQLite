@@ -1,5 +1,6 @@
 package com.example.recyclerview;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,18 @@ public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.Vi
         holder.tvDescripcion.setText(valor(p.descripcion));
         holder.tvPrecioExistencias.setText(String.format(Locale.getDefault(),
                 "Precio: $%,.2f   |   Existencias: %d", p.precio, p.existencias));
+
+        // Al tocar un producto se abre el formulario de actualización con sus datos
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), ActualizarActivity.class);
+            intent.putExtra("clave", p.clave);
+            intent.putExtra("nombre", p.nombre);
+            intent.putExtra("descripcion", p.descripcion);
+            intent.putExtra("precio", String.valueOf(p.precio));
+            intent.putExtra("existencias", String.valueOf(p.existencias));
+            intent.putExtra("categoria", p.categoria);
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override

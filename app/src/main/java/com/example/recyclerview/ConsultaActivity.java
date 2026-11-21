@@ -67,6 +67,18 @@ public class ConsultaActivity extends AppCompatActivity {
         });
     }
 
+    /** Al regresar de ActualizarActivity se vuelve a leer la BD para mostrar los cambios. */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String texto = String.valueOf(etBuscar.getText()).trim();
+        if (texto.isEmpty()) {
+            mostrarTodos();
+        } else {
+            buscarProducto();
+        }
+    }
+
     /** Consulta general: SELECT * FROM productos */
     private void mostrarTodos() {
         List<Producto> resultados = baseDatos.consultarTodos();
